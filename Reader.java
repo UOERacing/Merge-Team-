@@ -1,42 +1,48 @@
 // Program takes input of strings and parses them for the values
-import java.io.File;
-import java.util.Scanner;
+// LAST EDIT was Jacob K. on Feb. 8/2020
 import java.util.ArrayList;
+import java.nio.file.*;
 
 public class Reader{
+
   String info;
-  public static void main(String[] args) throws Exception
-  {
-    String parsing = "";
-    ArrayList<Double> r = new ArrayList<>();
-    ArrayList<Double> v = new ArrayList<>();
-    ArrayList<Double> x = new ArrayList<>();
-    File file = new File("/Users/alexismayers/Desktop/FILE.txt");
-    Scanner s = new Scanner(file);
-    char[] line;
-    char c;
-    double addedValue;
-    while (s.hasNextLine())
-      parsing = s.nextLine();
-      //System.out.println(parsing);
-      line = parsing.toCharArray();
-      for (int i = 0;i < line.length;i++) {
-        c = line[i];
-        if (c=='r'||c=='v'||c=='x') {
-          addedValue = (double)(line[i+2] + line[i+3] + line[i+4]);
-          if (c=='r'){
-          r.add(addedValue);
-          }
-          else if (c == 'v'){
-          v.add(addedValue);
-          }
-          else{
-          x.add(addedValue);
-          }
-        }
+  public static void main(String[] args) throws Exception{
+
+    String fileName = "FILE.txt";
+    ArrayList<Double> listR = new ArrayList<Double>();
+    ArrayList<Double> listV = new ArrayList<Double>();
+    ArrayList<Double> listX = new ArrayList<Double>();
+
+    Path path = Paths.get("./" + fileName);
+    String fileContents = Files.readString(path);
+
+
+    String[] contList = fileContents.split(",");
+    String[] processingList;
+
+    for (int i = 0; i < contList.length; i++){
+
+      processingList = contList[i].split("=");
+      processingList[0] = processingList[0].strip();
+
+      if (processingList[0].equals("r")){
+        listR.add(Double.parseDouble(processingList[1]));
       }
-      //System.out.println(x);
+
+      if (processingList[0].equals("v")){
+        listV.add(Double.parseDouble(processingList[1]));
+      }
+
+      if (processingList[0].equals("x")){
+        listX.add(Double.parseDouble(processingList[1]));
+      }
+
     }
 
+    System.out.println("R:" + listR);
+    System.out.println("V:" + listV);
+    System.out.println("X:" + listX);
+
+  }
 }
 
